@@ -8,6 +8,17 @@ https://github.com/spotify/docker-kafka/pull/71 and https://github.com/spotify/d
 # Docker container for Kafka #
 This cointainer was built for testing the logbee/keyscore project without having the need of a actual running kafka instance on a physical machine.
 
+## Build image from Dockerfile ##
+Build the image in the docker-kafka directory:
+```bash
+docker build .
+```
+
+When you are behind a proxy, pass your proxy settings to the build command. e.g.:
+```bash
+docker build . --build-arg http_proxy=http://172.17.0.1:3128/ --build-arg https_proxy=https://172.17.0.1:3128/
+```
+
 ## Run the container ##
 Expose and map the following ports:
 * `9092:9092` Kafka

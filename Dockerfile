@@ -22,8 +22,9 @@ RUN curl http://apache.mirrors.spacedump.net/kafka/"$KAFKA_VERSION"/kafka_"$SCAL
 RUN tar xfz /tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz -C /opt
 RUN rm /tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz
 
-# Start Kafka #
-ADD scripts/start-kafka.sh /usr/bin/start-kafka.sh
+# Copy scripts 
+ADD scripts/start-kafka.sh scripts/create-topics.sh scripts/fill-topics.sh /usr/bin/
+RUN ["chmod", "+x", "/usr/bin/start-kafka.sh", "/usr/bin/create-topics.sh", "/usr/bin/fill-topics.sh"]
 
 # Supervisor config
 ADD supervisor/kafka.conf supervisor/zookeeper.conf /etc/supervisor/conf.d/

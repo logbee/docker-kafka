@@ -14,9 +14,9 @@ env:
     - REPO=logbee/kafka
     
 script:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   - docker build -f Dockerfile -t $REPO:$TAG .
+after_sucess:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   - docker tag $REPO:$TAG $REPO:$TAG
   - docker tag $REPO:$TAG $REPO:travis-$TRAVIS_BUILD_NUMBER
-after_sucess:
   - docker push $REPO:$TAG

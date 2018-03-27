@@ -88,3 +88,6 @@ All of the above operations can be executed with this plugin.
 
 Additional features for topic creation may be included based on
 https://github.com/spotify/docker-kafka/pull/71 and https://github.com/spotify/docker-kafka/pull/29.
+
+
+[![Build Status](https://travis-ci.org/logbee/docker-kafka.svg?branch=master)](https://travis-ci.org/logbee/docker-kafka)

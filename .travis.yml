@@ -1,0 +1,27 @@
+sudo: required
+
+services:
+  - docker
+
+
+language: go
+
+go:
+- '1.5'
+
+env:
+  global:
+    - secure: "jmjvzZKZfXLJju3dStnUrKKuKMp7LVO3dUQhjl58wxd7qIGI/6OpkPfBfYnt/mj5G4Bhc1OiozhYFh2JnKkjoE1dpYIser4pSDHh+a6vMxW6nXewuOSaoRoW23ulJfN1ivnCnNAibnb3dXbVyJeFv6t4LgDC52hEgoa/CRCimc6MiXVcAcpVzFePXFQeuaN7L7lBHomxxqWBib/hS/n6L/QU7cxmE5kVaeM6mRnIKpfJ8/7cG0hj1+oq6lteqMVAUxVoBkumX9yBxWV+R+FWRF+NyCmuWUWGo1IZmw8FUC82bqbEdjnInGEyJ5ZbgNOWph/Ha3p3xsBqzJRnSzOlol/VD5wVCCT6S3NuNJKvxK8oR87m2GCUtzys4gJInh4uHUimUDy+pJFWa9cyV1l+UlL9HJvBUifgoMUM8Henc2pX946LF4+otpWo6vLoET1wBAcDu8/wQ24h/WOUYbsfRAeUOJhmv5iA0M3N3SK9H77KIsgl3sAmdIcAXQ0FcuNVJ8Zgp3YPQG5fNCHhQS5f4ER9JNkfWyppWBNnXETWnRCCpszjnq3TXi5QsocJy4jwv+1KIzSVq6r9wvYW14sm/Q5nm8kvvGX3k+gckhFpjEkNmSQBWP8h4b+QblusaDuiMoG3lqnzQvdfBqAs0NtxDw4ISctfx5puVpdD9QFKtjw=" #DODCKER_EMAIL
+    - secure: "m2xsHlkIRLI1eC/3wVV8fT9sdRp+alzLmJk9CCAkAswg9WvaYmZ1LAevxpD7pwc62ytVVmBtS4aEC1VOzNLZ2NTW9HuiN3j4jqtcjOH+x2q3UDMy1AUoRCFO0CisAg+eXKA6GOdqKUVy7OCmaeGjaDoW39Z7Dw7nL4zjOcB1qYMcBdm12J0fsYL6HTugcz/K4JmPhquv5MliZwnAWh3+Zr4JtuXXlzoxLxZYpxfhJOi+m1OS3jMCNixs14dZZLkdMQLL/Q70SL3nIV3mS4LuL34sa8nNb3PGc63J3D3chsv62AXlZBoohOWl+ddf2daZOs6I7EgTwtwopik3A1YeZSjMQTp3V0PiKDtogRHr3aaMelouoOWuUnlBEtRngvQpwQ2dIX7H7enge0CX6ZRTsU6vk5qdnoHysB/djAjZi8byKkSmgWg3v0KhxJZpoUcEiIfwaKju5ltORyCi0h68vQoEbk/78E9A0lKvynZpf15NWEdeSLXU1UAWePNExbgnx4R/mT6b0+aaaAYICNFzvDTchPosm6bZ41p48yltlLcLhs8KSEtUj5glnQZg/Y5JAjLgLqEv4soxfuBk2daPTQ2186YUl4Uxyvbg6TvdFUuRMQN+ZMzNXGign9PXzWfzAbNCpsj13KUtt5G2OQSJbUHobucGn0og/azwJwzbCXI=" #DOCKER_USER
+    - secure: "BrOtOsKn/xiFL5RPKcAM0HVd769cHBWFZsJfmYhYNUunfZA9+McyX9LS3uJPfikqGhNloveTefld4zJFar1e7au/WtUlJ3lCVAcHjy1kCyMSclKk5SokNAZWoqK8z6Zg6ISYGlaeAj+2aqI7qzNgW0YH66E5eQzG+uvrIKLGcozBUEHCldbqkCwDsSjjBKCNKkIgCYnrN7kS8DHGGDl7Om7dLO9FptmV+UMgfrnLbDNH032H+gJifC1rnnX6iC1x3XqcA6eTPIiLJ9AFiwv+i40EYWrmpDCSi1C2800D5d70roiQxejxJDDbKpiTyrqfr8GMysWERqs4p9mMFkt5DWddjNxqu+qUYMrsWNO1+7xuDPjx6hSTAEt9yTp6JwQjq71HcYaMECo2bqyMbdxztnk+ESJc2JtZU1XLpKl6PSGGxtWbkk/bnO6xg4Xf+BlwB5yKiNMhnFzZ70qI2/cm5NBKQjDXWFSATID+R259/gHuwPnIg0CXhkTtpsYP2UjeuM5KQP3oK1DFGmhoj9Kd/lzAAboJs/vxSkc3MM7KFVoQ7mz5w06+YIzGUbg0naq7x3ekgJciP+8KvjafXrG9co5gpEMX6xODFonebyVuWGUMa0r2xAN3DTrCBAvm4qL6l3PYoSILyERlD4RRDfZqqmMdCnhSJJyRtudtEzMkXGI=" #DOCKER_PASS
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+after_success:
+  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=logbee/kafka
+  - export TAG=$COMMIT
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO

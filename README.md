@@ -70,7 +70,7 @@ If a topic already exists, no new topic will be created.
 You can see the output here: /var/log/kafka-topics/kafka-topic-creation.log
 
 ## Fill Topics with data ##
-For testing purposes, it is usefull to fill topics with some data.
+For testing purposes, it is usefull to fill topics with some data. This function takes two arguments.
 ```bash
 docker exec 74ddf6262496 fill-topics "topic1,topic2" /destination/folder/testdata.type
 ```

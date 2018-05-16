@@ -32,7 +32,7 @@ A proper run configuration would be
 docker run -d --name kafka-docker \ 
     -p 2181:2181 -p 9092:9092 \
     --network host \
-    logbee/docker-kafka
+    quay.io/logbee/docker-kafka
 ```
 
 ### Volumes ###

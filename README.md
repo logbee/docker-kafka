@@ -5,7 +5,7 @@ Notice: This project was forked from https://github.com/spotify/docker-kafka.
 # Docker container for Kafka #
 This cointainer was built for testing the logbee/keyscore project without having the need of a actual running kafka instance on a physical machine.
 
-The latest image is available at https://hub.docker.com/r/logbee/kafka/ on tag v3.
+The latest image is available at https://quay.io/repository/logbee/docker-kafka.
 
 ## Build image from Dockerfile ##
 Build the image in the docker-kafka directory:

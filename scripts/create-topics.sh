@@ -4,7 +4,6 @@ touch -c /var/log/kafka-topics/kafka-topic-creation.log
  
 if [ -n $1 ]; then
     echo "Starting topic creation with [$1] ..." >> /var/log/kafka-topics/kafka-topic-creation.log;
-    sleep 15s
     IFS=','; for topicToCreate in $1; do
         topicCount=$(/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/bin/kafka-topics.sh --zookeeper localhost:2181 --list | grep -c ${topicToCreate})
         if [ $topicCount -ge 1 ]; then

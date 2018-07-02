@@ -13,6 +13,7 @@ ENV ES_JAVA_OPTS -Xmx256m -Xms256m
 RUN apt-get update && \
     apt-get install -y zookeeper wget supervisor dnsutils && \
     apt-get -qq install net-tools && \
+    apt-get -qq install netcat && \
     apt-get -qq install vim && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean

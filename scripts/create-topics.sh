@@ -8,8 +8,10 @@ if [ -n $1 ]; then
         echo -e "\nNo broker available.\n" >> /var/log/kafka-topics/kafka-topic-creation.log;
         sleep 5s;
     done
+    
+    topics=/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/bin/kafka-topics.sh --zookeeper localhost:2181 --list
     IFS=','; for topicToCreate in $1; do
-        topicCount=$(/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/bin/kafka-topics.sh --zookeeper localhost:2181 --list | grep -c ${topicToCreate})
+        topicCount=$(echo $topics | grep -c ${topicToCreate})
         if [ $topicCount -ge 1 ]; then
             echo -e "[ERROR] Topic [${topicToCreate}] already exists.\n" >> /var/log/kafka-topics/kafka-topic-creation.log;
         else

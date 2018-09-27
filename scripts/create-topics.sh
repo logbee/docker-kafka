@@ -9,7 +9,7 @@ if [ -n $1 ]; then
         sleep 5s;
     done
     
-    topics=/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/bin/kafka-topics.sh --zookeeper localhost:2181 --list
+    topics=$(/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/bin/kafka-topics.sh --zookeeper localhost:2181 --list)
     IFS=','; for topicToCreate in $1; do
         topicCount=$(echo $topics | grep -c ${topicToCreate})
         if [ $topicCount -ge 1 ]; then
